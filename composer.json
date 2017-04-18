@@ -1,0 +1,31 @@
+{
+  "name": "allenjb/mailer",
+  "type": "library",
+  "description": "Email library that separates emails from email transport",
+  "keywords": [
+    "AllenJB",
+    "email",
+    "PHPMailer"
+  ],
+  "homepage": "https://github.com/AllenJB/Mailer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "AllenJB",
+      "email": "php-packages@allenjb.me.uk",
+      "homepage": "https://github.com/AllenJB",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php" : "~7.1"
+  },
+  "suggest": {
+    "phpmailer/phpmailer": "Recommended transport"
+  },
+  "autoload": {
+    "psr-4": {
+      "allenjb\\mailer\\": "src"
+    }
+  }
+}

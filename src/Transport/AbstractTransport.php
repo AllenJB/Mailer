@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 namespace AllenJB\Mailer\Transport;
 
@@ -20,21 +19,21 @@ abstract class AbstractTransport
     }
 
 
-    public function setTempPath(string $path) : void
+    public function setTempPath($path)
     {
         $this->tmpPath = $path;
     }
 
 
-    public function send(Email $email) : bool
+    public function send(Email $email)
     {
-        if (($email->subject() ?? "") !== "") {
+        if (strlen($email->subject()) < 1) {
             throw new \UnexpectedValueException("Email has no subject");
         }
         if (($email->sender() === null) && ($email->from() === null) && $email->replyTo() === null) {
             throw new \UnexpectedValueException("Email has no from / sender identity");
         }
-        if ((($email->bodyText() ?? "") !== "") && (($email->bodyHtml() ?? "") !== "")) {
+        if ((strlen($email->bodyText()) < 1) && (strlen($email->bodyHtml()) < 1)) {
             throw new \UnexpectedValueException("Email has no body");
         }
         if ((count($email->to()) + count($email->cc()) + count($email->bcc())) < 1) {
@@ -51,10 +50,10 @@ abstract class AbstractTransport
     }
 
 
-    protected abstract function sendImplementation(InternalEmail $email) : bool;
+    protected abstract function sendImplementation(InternalEmail $email);
 
 
-    protected function createTmpFile($extension) : string
+    protected function createTmpFile($extension)
     {
         $tmpName = 'email_attach_'. dechex(time()) .'_'. dechex(random_int(0, 4096)) .'.'. $extension;
         if (file_exists($this->tmpPath . $tmpName)) {
@@ -64,7 +63,7 @@ abstract class AbstractTransport
     }
 
 
-    protected function cleanupTmpFiles() : void
+    protected function cleanupTmpFiles()
     {
         foreach ($this->tmpFiles as $tmpFile) {
             unlink($tmpFile);

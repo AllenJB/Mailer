@@ -19,7 +19,7 @@ class InternalEmail extends Email
 
     public function from()
     {
-        $retVal = ($this->from ?? $this->sender);
+        $retVal = (($this->from === null) ? $this->sender : $this->from);
         if ($retVal === null) {
             $retVal = $this->replyTo;
         }
@@ -29,7 +29,7 @@ class InternalEmail extends Email
 
     public function sender()
     {
-        $retVal = ($this->sender ?? $this->from);
+        $retVal = (($this->sender === null) ? $this->from : $this->sender);
         if ($retVal === null) {
             $retVal = $this->replyTo;
         }
@@ -39,7 +39,7 @@ class InternalEmail extends Email
 
     public function replyTo()
     {
-        $retVal = ($this->replyTo ?? $this->from);
+        $retVal = (($this->replyTo === null) ? $this->from : $this->replyTo);
         if ($retVal === null) {
             $retVal = $this->sender;
         }
@@ -49,7 +49,10 @@ class InternalEmail extends Email
 
     public function returnPath()
     {
-        return ($this->returnPath ?? $this->sender());
+        if ($this->returnPath === null) {
+            return $this->sender();
+        }
+        return $this->returnPath;
     }
 
 }

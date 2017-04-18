@@ -20,20 +20,20 @@ class PhpMailer extends AbstractTransport
     }
     
     
-    protected function sendImplementation(InternalEmail $email) : bool
+    protected function sendImplementation(InternalEmail $email)
     {
         $this->reset();
 
         $this->mailer->Subject = $email->subject();
 
-        $this->mailer->setFrom($email->from()->email(), ($email->from()->displayName() ?? ''));
-        $this->mailer->addReplyTo($email->replyTo()->email(), ($email->replyTo()->displayName() ?? ''));
+        $this->mailer->setFrom($email->from()->email(), ''. $email->from()->displayName());
+        $this->mailer->addReplyTo($email->replyTo()->email(), ''. $email->replyTo()->displayName());
 
         /**
          * @var Identity $identity;
          */
         foreach ($email->to() as $identity) {
-            $this->mailer->addAddress($identity->email(), ($identity->displayName() ?? ''));     // Add a recipient
+            $this->mailer->addAddress($identity->email(), ''. $identity->displayName());     // Add a recipient
         }
 
 
@@ -41,14 +41,14 @@ class PhpMailer extends AbstractTransport
          * @var Identity $identity;
          */
         foreach ($email->cc() as $identity) {
-            $this->mailer->addCC($identity->email(), ($identity->displayName() ?? ''));     // Add a recipient
+            $this->mailer->addCC($identity->email(), ''. $identity->displayName());     // Add a recipient
         }
 
         /**
          * @var Identity $identity;
          */
         foreach ($email->bcc() as $identity) {
-            $this->mailer->addBCC($identity->email(), ($identity->displayName() ?? ''));
+            $this->mailer->addBCC($identity->email(), ''. $identity->displayName());
         }
 
         foreach ($email->attachments() as $attachment) {
@@ -77,7 +77,7 @@ class PhpMailer extends AbstractTransport
             }
         }
 
-        if (strlen($email->bodyText() ?? '') > 0) {
+        if (strlen($email->bodyText()) > 0) {
             if ($email->bodyHtml() !== null) {
                 $this->mailer->isHTML(true);
                 $this->mailer->Body = $email->bodyHtml();

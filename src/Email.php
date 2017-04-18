@@ -66,49 +66,49 @@ class Email
     }
 
 
-    public function setSubject(string $subject) : void
+    public function setSubject($subject)
     {
         $this->subject = $subject;
     }
 
 
-    public function setTextBody(string $body) : void
+    public function setTextBody($body)
     {
         $this->bodyText = $body;
     }
 
 
-    public function appendTextBody(string $body) : void
+    public function appendTextBody($body)
     {
         $this->bodyText .= $body;
     }
 
 
-    public function setHtmlBody(string $body) : void
+    public function setHtmlBody($body)
     {
         $this->bodyHtml = $body;
     }
 
 
-    public function addTo(string $email, string $displayName = null) : void
+    public function addTo($email, $displayName = null)
     {
         $this->to[] = new Identity($email, $displayName);
     }
 
 
-    public function addCc(string $email, string $displayName = null) : void
+    public function addCc($email, $displayName = null)
     {
         $this->cc[] = new Identity($email, $displayName);
     }
 
 
-    public function addBcc(string $email, string $displayName = null) : void
+    public function addBcc($email, $displayName = null)
     {
         $this->bcc = new Identity($email, $displayName);
     }
 
 
-    public function addRecipientsTo(array $recipients) : void
+    public function addRecipientsTo(array $recipients)
     {
         foreach ($recipients as $key => $value) {
             if (is_int($key)) {
@@ -120,7 +120,7 @@ class Email
     }
 
 
-    public function addRecipientsCc(array $recipients) : void
+    public function addRecipientsCc(array $recipients)
     {
         foreach ($recipients as $key => $value) {
             if (is_int($key)) {
@@ -132,7 +132,7 @@ class Email
     }
 
 
-    public function addRecipientsBcc(array $recipients) : void
+    public function addRecipientsBcc(array $recipients)
     {
         foreach ($recipients as $key => $value) {
             if (is_int($key)) {
@@ -144,7 +144,7 @@ class Email
     }
 
 
-    public function addAttachment(string $displayFilename, string $contentType, string $filePath, string $disposition = 'attachment') : void
+    public function addAttachment($displayFilename, $contentType, $filePath, $disposition = 'attachment')
     {
         if (!in_array($disposition, $this->allowedDispositions, true)) {
             throw new \InvalidArgumentException("Disposition must be one of: ". implode(', ', $this->allowedDispositions));
@@ -160,7 +160,7 @@ class Email
     }
 
 
-    public function addAttachmentData(string $displayFilename, string $contentType, $data, string $disposition = 'attachment') : void
+    public function addAttachmentData($displayFilename, $contentType, $data, $disposition = 'attachment')
     {
         if (!in_array($disposition, $this->allowedDispositions, true)) {
             throw new \InvalidArgumentException("Disposition must be one of: ". implode(', ', $this->allowedDispositions));
@@ -182,7 +182,7 @@ class Email
      * @param string $email
      * @param null|string $displayName
      */
-    public function setFrom(string $email, string $displayName = null) : void
+    public function setFrom($email, $displayName = null)
     {
         $this->from = new Identity($email, $displayName);
     }
@@ -194,25 +194,25 @@ class Email
      * @param string $email
      * @param null|string $displayName
      */
-    public function setSender(string $email, string $displayName = null) : void
+    public function setSender($email, $displayName = null)
     {
         $this->sender = new Identity($email, $displayName);
     }
 
 
-    public function setReplyTo(string $email, string $displayName = null) : void
+    public function setReplyTo($email, $displayName = null)
     {
         $this->replyTo = new Identity($email, $displayName);
     }
 
 
-    public function setReturnPath(string $email) : void
+    public function setReturnPath($email)
     {
         $this->returnPath = new Identity($email);
     }
 
 
-    public function setInReplyTo(string $messageId) : void
+    public function setInReplyTo($messageId)
     {
         $this->inReplyTo = $messageId;
         $this->references[] = $messageId;
@@ -222,7 +222,7 @@ class Email
     /**
      * @param string|string[] $ref
      */
-    public function addReference($ref) : void
+    public function addReference($ref)
     {
         if (!is_array($ref)) {
             $ref = [$ref];
@@ -231,7 +231,7 @@ class Email
     }
 
 
-    public function addHeader(string $header, string $value, bool $overwrite = true) : void
+    public function addHeader($header, $value, $overwrite = true)
     {
         if (!$overwrite) {
             if (!array_key_exists($header, $this->addHeaders)) {
@@ -244,73 +244,73 @@ class Email
     }
 
 
-    public function attachments() : array
+    public function attachments()
     {
         return $this->attachments;
     }
 
 
-    public function subject() : ?string
+    public function subject()
     {
         return $this->subject;
     }
 
 
-    public function bodyText() : ?string
+    public function bodyText()
     {
         return $this->bodyText;
     }
 
 
-    public function bodyHtml() : ?string
+    public function bodyHtml()
     {
         return $this->bodyHtml;
     }
 
 
-    public function to() : array
+    public function to()
     {
         return $this->to;
     }
 
 
-    public function cc() : array
+    public function cc()
     {
         return $this->cc;
     }
 
 
-    public function bcc() : array
+    public function bcc()
     {
         return $this->bcc;
     }
 
 
-    public function from() : ?Identity
+    public function from()
     {
         return $this->from;
     }
 
 
-    public function sender() : ?Identity
+    public function sender()
     {
         return $this->sender;
     }
 
 
-    public function replyTo() : ?Identity
+    public function replyTo()
     {
         return $this->replyTo;
     }
 
 
-    public function returnPath() : ?Identity
+    public function returnPath()
     {
         return $this->returnPath;
     }
 
 
-    public function additionalHeaders() : array
+    public function additionalHeaders()
     {
         return $this->addHeaders;
     }

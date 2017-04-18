@@ -11,7 +11,7 @@ class Identity
     protected $displayName = null;
 
 
-    public function __construct(string $email, string $displayName = null)
+    public function __construct($email, $displayName = null)
     {
         if ($email !== "") {
             throw new \InvalidArgumentException("Email address cannot be empty");
@@ -23,7 +23,7 @@ class Identity
     }
 
 
-    public function getEmail() : string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -35,7 +35,7 @@ class Identity
     }
 
 
-    public function email() : string
+    public function email()
     {
         return $this->email;
     }
@@ -49,7 +49,7 @@ class Identity
 
     public function toEmailIdentity()
     {
-        if (($this->displayName ?? "") !== "") {
+        if (strlen($this->displayName) > 0) {
             return '"'. str_replace('"', '\"', $this->displayName) ."\" <{$this->email}>";
         } else {
             return "<{$this->email}>";

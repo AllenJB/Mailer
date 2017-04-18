@@ -21,7 +21,7 @@ class CodeIgniter extends AbstractTransport
     }
     
     
-    protected function sendImplementation(InternalEmail $email) : bool
+    protected function sendImplementation(InternalEmail $email)
     {
         /**
          * @var \CI_Email $mailer;
@@ -65,7 +65,7 @@ class CodeIgniter extends AbstractTransport
             $mailer->_set_header($header, $value);
         }
 
-        if (strlen($email->bodyText() ?? '') > 0) {
+        if (strlen($email->bodyText()) > 0) {
             if ($email->bodyHtml() !== null) {
                 $mailer->set_mailtype('html');
                 $mailer->message($email->bodyHtml());
@@ -89,8 +89,8 @@ class CodeIgniter extends AbstractTransport
 
     protected function setAuthorIdentity(\CI_Email $mailer, InternalEmail $email)
     {
-        $mailer->from($email->from()->email(), ($email->from()->displayName() ?? ''));
-        $mailer->reply_to($email->replyTo()->email(), ($email->replyTo()->displayName() ?? ''));
+        $mailer->from($email->from()->email(), (strlen($email->from()->displayName()) ? $email->from()->displayName() : ''));
+        $mailer->reply_to($email->replyTo()->email(), (strlen($email->replyTo()->displayName()) ? $email->replyTo()->displayName() : ''));
 
         $mailer->_set_header('Sender', $email->sender()->toEmailIdentity());
         // MUST be done after from because CI sets this automatically recipients from address

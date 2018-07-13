@@ -6,6 +6,9 @@ namespace AllenJB\Mailer;
 class Email
 {
 
+    /**
+     * @var string[]
+     */
     protected $allowedDispositions = ['attachment', 'inline'];
 
     /**
@@ -23,6 +26,9 @@ class Email
      */
     protected $bodyHtml = null;
 
+    /**
+     * @var string[]
+     */
     protected $addHeaders = [];
 
     /**
@@ -45,10 +51,19 @@ class Email
      */
     protected $returnPath = null;
 
+    /**
+     * @var Identity[]
+     */
     protected $to = [];
 
+    /**
+     * @var Identity[]
+     */
     protected $cc = [];
 
+    /**
+     * @var Identity[]
+     */
     protected $bcc = [];
 
     /**
@@ -56,8 +71,14 @@ class Email
      */
     protected $inReplyTo = null;
 
+    /**
+     * @var string[]
+     */
     protected $references = [];
 
+    /**
+     * @var array
+     */
     protected $attachments = [];
 
 
@@ -104,10 +125,12 @@ class Email
 
     public function addBcc(string $email, string $displayName = null) : void
     {
-        $this->bcc = new Identity($email, $displayName);
+        $this->bcc[] = new Identity($email, $displayName);
     }
 
-
+    /**
+     * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
+     */
     public function addRecipientsTo(array $recipients) : void
     {
         foreach ($recipients as $key => $value) {
@@ -120,6 +143,9 @@ class Email
     }
 
 
+    /**
+     * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
+     */
     public function addRecipientsCc(array $recipients) : void
     {
         foreach ($recipients as $key => $value) {
@@ -132,6 +158,9 @@ class Email
     }
 
 
+    /**
+     * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
+     */
     public function addRecipientsBcc(array $recipients) : void
     {
         foreach ($recipients as $key => $value) {

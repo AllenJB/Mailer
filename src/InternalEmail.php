@@ -10,14 +10,14 @@ class InternalEmail extends Email
     {
         parent::__construct();
 
-        $props = get_class_vars($email);
+        $props = get_object_vars($email);
         foreach ($props as $prop => $value) {
             $this->{$prop} = $value;
         }
     }
 
 
-    public function from()
+    public function from() : Identity
     {
         $retVal = ($this->from ?? $this->sender);
         if ($retVal === null) {
@@ -27,7 +27,7 @@ class InternalEmail extends Email
     }
 
 
-    public function sender()
+    public function sender() : Identity
     {
         $retVal = ($this->sender ?? $this->from);
         if ($retVal === null) {
@@ -37,7 +37,7 @@ class InternalEmail extends Email
     }
 
 
-    public function replyTo()
+    public function replyTo() : Identity
     {
         $retVal = ($this->replyTo ?? $this->from);
         if ($retVal === null) {
@@ -47,7 +47,7 @@ class InternalEmail extends Email
     }
 
 
-    public function returnPath()
+    public function returnPath() : Identity
     {
         return ($this->returnPath ?? $this->sender());
     }

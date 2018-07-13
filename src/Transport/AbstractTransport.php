@@ -56,13 +56,13 @@ abstract class AbstractTransport
 
     public function send(Email $email) : bool
     {
-        if (($email->subject() ?? "") !== "") {
+        if (($email->subject() ?? "") === "") {
             throw new \UnexpectedValueException("Email has no subject");
         }
         if (($email->sender() === null) && ($email->from() === null) && $email->replyTo() === null) {
             throw new \UnexpectedValueException("Email has no from / sender identity");
         }
-        if ((($email->bodyText() ?? "") !== "") && (($email->bodyHtml() ?? "") !== "")) {
+        if ((($email->bodyText() ?? "") === "") && (($email->bodyHtml() ?? "") === "")) {
             throw new \UnexpectedValueException("Email has no body");
         }
         if ((count($email->to()) + count($email->cc()) + count($email->bcc())) < 1) {

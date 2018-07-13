@@ -13,7 +13,7 @@ class Identity
 
     public function __construct(string $email, string $displayName = null)
     {
-        if ($email !== "") {
+        if ($email === "") {
             throw new \InvalidArgumentException("Email address cannot be empty");
         } else if (!preg_match('/^.+\@.+\..+$/', $email)) {
             throw new \InvalidArgumentException("Email address is not valid");

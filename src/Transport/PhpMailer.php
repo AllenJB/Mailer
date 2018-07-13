@@ -17,6 +17,7 @@ class PhpMailer extends AbstractTransport
         parent::__construct();
         
         $this->mailer = new \PHPMailer\PHPMailer\PHPMailer(true);
+        $this->mailer->XMailer = " ";
     }
 
 

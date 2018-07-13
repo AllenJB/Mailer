@@ -18,6 +18,28 @@ class PhpMailer extends AbstractTransport
         
         $this->mailer = new \PHPMailer\PHPMailer\PHPMailer(true);
     }
+
+
+    protected function reconfigureMethod() : void
+    {
+        switch ($this->method) {
+            case "default";
+                break;
+
+            case "smtp":
+                $this->mailer->isSMTP();
+                $this->mailer->Host = $this->methodHost;
+                $this->mailer->SMTPAuth = true;
+                $this->mailer->SMTPSecure = 'tls';
+                $this->mailer->Port = $this->methodPort;
+                $this->mailer->Username = $this->methodUser;
+                $this->mailer->Password = $this->methodPass;
+                break;
+
+            default:
+                throw new \DomainException("Unimplemented method for the selected transport");
+        }
+    }
     
     
     protected function sendImplementation(InternalEmail $email) : bool

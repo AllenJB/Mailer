@@ -13,11 +13,39 @@ abstract class AbstractTransport
 
     protected $tmpFiles = [];
 
+    /**
+     * @var string "default" or "smtp" are currently supported
+     */
+    protected $method = "default";
+
+    protected $methodHost = null;
+
+    protected $methodPort = null;
+
+    protected $methodUser = null;
+
+    protected $methodPass = null;
+
 
     public function __construct()
     {
         $this->tmpPath = sys_get_temp_dir();
     }
+
+
+    public function setMethodSmtp(string $hostname, string $username, string $password, int $port = 587) : void
+    {
+        $this->method = "smtp";
+        $this->methodHost = $hostname;
+        $this->methodUser = $username;
+        $this->methodPass = $password;
+        $this->methodPort = $port;
+
+        $this->reconfigureMethod();
+    }
+
+
+    abstract protected function reconfigureMethod() : void;
 
 
     public function setTempPath(string $path) : void

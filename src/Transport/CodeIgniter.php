@@ -19,6 +19,18 @@ class CodeIgniter extends AbstractTransport
         $this->ci =& get_instance();
         $this->ci->load->library('email');
     }
+
+
+    protected function reconfigureMethod() : void
+    {
+        switch ($this->method) {
+            case "default";
+                break;
+
+            default:
+                throw new \DomainException("Unimplemented for the selected transport");
+        }
+    }
     
     
     protected function sendImplementation(InternalEmail $email) : bool

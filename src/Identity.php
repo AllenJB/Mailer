@@ -6,8 +6,14 @@ namespace AllenJB\Mailer;
 class Identity
 {
 
+    /**
+     * @var string
+     */
     protected $email;
 
+    /**
+     * @var string|null
+     */
     protected $displayName = null;
 
 

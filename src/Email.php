@@ -7,7 +7,7 @@ class Email
 {
 
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected $allowedDispositions = ['attachment', 'inline'];
 
@@ -27,7 +27,7 @@ class Email
     protected $bodyHtml = null;
 
     /**
-     * @var string[]
+     * @var array<string, array<string>>
      */
     protected $addHeaders = [];
 
@@ -52,17 +52,17 @@ class Email
     protected $returnPath = null;
 
     /**
-     * @var Identity[]
+     * @var array<Identity>
      */
     protected $to = [];
 
     /**
-     * @var Identity[]
+     * @var array<Identity>
      */
     protected $cc = [];
 
     /**
-     * @var Identity[]
+     * @var array<Identity>
      */
     protected $bcc = [];
 
@@ -72,7 +72,7 @@ class Email
     protected $inReplyTo = null;
 
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected $references = [];
 

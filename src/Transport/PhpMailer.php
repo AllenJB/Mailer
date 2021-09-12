@@ -82,6 +82,19 @@ class PhpMailer extends AbstractTransport
             }
         }
 
+        if ($email->inReplyTo() !== null) {
+            $this->mailer->addCustomHeader('In-Reply-To', $email->inReplyTo());
+        }
+
+        if (count($email->references())) {
+            $encodedRefs = [];
+            foreach ($email->references() as $refdMessageId) {
+                $encodedRefs[] = '<'. $refdMessageId .'>';
+            }
+            $headerString = join(" ", $encodedRefs);
+            $this->mailer->addCustomHeader('References', $headerString);
+        }
+
         foreach ($email->additionalHeaders() as $header => $values) {
             foreach ($values as $value) {
                 $this->mailer->addCustomHeader($header, $value);

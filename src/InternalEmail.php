@@ -17,7 +17,7 @@ class InternalEmail extends Email
     }
 
 
-    public function from(): Identity
+    public function from(): ?Identity
     {
         $retVal = ($this->from ?? $this->sender);
         if ($retVal === null) {
@@ -27,7 +27,7 @@ class InternalEmail extends Email
     }
 
 
-    public function sender(): Identity
+    public function sender(): ?Identity
     {
         $retVal = ($this->sender ?? $this->from);
         if ($retVal === null) {
@@ -37,7 +37,7 @@ class InternalEmail extends Email
     }
 
 
-    public function replyTo(): Identity
+    public function replyTo(): ?Identity
     {
         $retVal = ($this->replyTo ?? $this->from);
         if ($retVal === null) {
@@ -47,7 +47,7 @@ class InternalEmail extends Email
     }
 
 
-    public function returnPath(): Identity
+    public function returnPath(): ?Identity
     {
         return ($this->returnPath ?? $this->sender());
     }

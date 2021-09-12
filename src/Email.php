@@ -261,6 +261,12 @@ class Email
     }
 
 
+    public function inReplyTo(): ?string
+    {
+        return $this->inReplyTo;
+    }
+
+
     /**
      * @param string|string[] $ref
      */
@@ -269,7 +275,13 @@ class Email
         if (! is_array($ref)) {
             $ref = [$ref];
         }
-        $this->references += $ref;
+        $this->references = array_merge($this->references, $ref);
+    }
+
+
+    public function references(): array
+    {
+        return $this->references;
     }
 
 
@@ -280,6 +292,7 @@ class Email
                 $this->addHeaders[$header] = [];
             }
             $this->addHeaders[$header][] = $value;
+            return;
         }
 
         $this->addHeaders[$header] = [$value];

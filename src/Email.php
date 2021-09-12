@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AllenJB\Mailer;
 
@@ -87,51 +87,52 @@ class Email
     }
 
 
-    public function setSubject(string $subject) : void
+    public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
 
 
-    public function setTextBody(string $body) : void
+    public function setTextBody(string $body): void
     {
         $this->bodyText = $body;
     }
 
 
-    public function appendTextBody(string $body) : void
+    public function appendTextBody(string $body): void
     {
         $this->bodyText .= $body;
     }
 
 
-    public function setHtmlBody(string $body) : void
+    public function setHtmlBody(string $body): void
     {
         $this->bodyHtml = $body;
     }
 
 
-    public function addTo(string $email, string $displayName = null) : void
+    public function addTo(string $email, ?string $displayName = null): void
     {
         $this->to[] = new Identity($email, $displayName);
     }
 
 
-    public function addCc(string $email, string $displayName = null) : void
+    public function addCc(string $email, ?string $displayName = null): void
     {
         $this->cc[] = new Identity($email, $displayName);
     }
 
 
-    public function addBcc(string $email, string $displayName = null) : void
+    public function addBcc(string $email, ?string $displayName = null): void
     {
         $this->bcc[] = new Identity($email, $displayName);
     }
 
+
     /**
      * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
      */
-    public function addRecipientsTo(array $recipients) : void
+    public function addRecipientsTo(array $recipients): void
     {
         foreach ($recipients as $key => $value) {
             if (is_int($key)) {
@@ -146,7 +147,7 @@ class Email
     /**
      * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
      */
-    public function addRecipientsCc(array $recipients) : void
+    public function addRecipientsCc(array $recipients): void
     {
         foreach ($recipients as $key => $value) {
             if (is_int($key)) {
@@ -161,7 +162,7 @@ class Email
     /**
      * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
      */
-    public function addRecipientsBcc(array $recipients) : void
+    public function addRecipientsBcc(array $recipients): void
     {
         foreach ($recipients as $key => $value) {
             if (is_int($key)) {
@@ -173,10 +174,16 @@ class Email
     }
 
 
-    public function addAttachment(string $displayFilename, string $contentType, string $filePath, string $disposition = 'attachment') : void
-    {
-        if (!in_array($disposition, $this->allowedDispositions, true)) {
-            throw new \InvalidArgumentException("Disposition must be one of: ". implode(', ', $this->allowedDispositions));
+    public function addAttachment(
+        string $displayFilename,
+        string $contentType,
+        string $filePath,
+        string $disposition = 'attachment'
+    ): void {
+        if (! in_array($disposition, $this->allowedDispositions, true)) {
+            throw new \InvalidArgumentException(
+                "Disposition must be one of: " . implode(', ', $this->allowedDispositions)
+            );
         }
 
         $this->attachments[] = [
@@ -189,10 +196,16 @@ class Email
     }
 
 
-    public function addAttachmentData(string $displayFilename, string $contentType, $data, string $disposition = 'attachment') : void
-    {
-        if (!in_array($disposition, $this->allowedDispositions, true)) {
-            throw new \InvalidArgumentException("Disposition must be one of: ". implode(', ', $this->allowedDispositions));
+    public function addAttachmentData(
+        string $displayFilename,
+        string $contentType,
+        $data,
+        string $disposition = 'attachment'
+    ): void {
+        if (! in_array($disposition, $this->allowedDispositions, true)) {
+            throw new \InvalidArgumentException(
+                "Disposition must be one of: " . implode(', ', $this->allowedDispositions)
+            );
         }
 
         $this->attachments[] = [
@@ -211,7 +224,7 @@ class Email
      * @param string $email
      * @param null|string $displayName
      */
-    public function setFrom(string $email, string $displayName = null) : void
+    public function setFrom(string $email, string $displayName = null): void
     {
         $this->from = new Identity($email, $displayName);
     }
@@ -223,25 +236,25 @@ class Email
      * @param string $email
      * @param null|string $displayName
      */
-    public function setSender(string $email, string $displayName = null) : void
+    public function setSender(string $email, string $displayName = null): void
     {
         $this->sender = new Identity($email, $displayName);
     }
 
 
-    public function setReplyTo(string $email, string $displayName = null) : void
+    public function setReplyTo(string $email, string $displayName = null): void
     {
         $this->replyTo = new Identity($email, $displayName);
     }
 
 
-    public function setReturnPath(string $email) : void
+    public function setReturnPath(string $email): void
     {
         $this->returnPath = new Identity($email);
     }
 
 
-    public function setInReplyTo(string $messageId) : void
+    public function setInReplyTo(string $messageId): void
     {
         $this->inReplyTo = $messageId;
         $this->references[] = $messageId;
@@ -251,19 +264,19 @@ class Email
     /**
      * @param string|string[] $ref
      */
-    public function addReference($ref) : void
+    public function addReference($ref): void
     {
-        if (!is_array($ref)) {
+        if (! is_array($ref)) {
             $ref = [$ref];
         }
         $this->references += $ref;
     }
 
 
-    public function addHeader(string $header, string $value, bool $overwrite = true) : void
+    public function addHeader(string $header, string $value, bool $overwrite = true): void
     {
-        if (!$overwrite) {
-            if (!array_key_exists($header, $this->addHeaders)) {
+        if (! $overwrite) {
+            if (! array_key_exists($header, $this->addHeaders)) {
                 $this->addHeaders[$header] = [];
             }
             $this->addHeaders[$header][] = $value;
@@ -273,73 +286,73 @@ class Email
     }
 
 
-    public function attachments() : array
+    public function attachments(): array
     {
         return $this->attachments;
     }
 
 
-    public function subject() : ?string
+    public function subject(): ?string
     {
         return $this->subject;
     }
 
 
-    public function bodyText() : ?string
+    public function bodyText(): ?string
     {
         return $this->bodyText;
     }
 
 
-    public function bodyHtml() : ?string
+    public function bodyHtml(): ?string
     {
         return $this->bodyHtml;
     }
 
 
-    public function to() : array
+    public function to(): array
     {
         return $this->to;
     }
 
 
-    public function cc() : array
+    public function cc(): array
     {
         return $this->cc;
     }
 
 
-    public function bcc() : array
+    public function bcc(): array
     {
         return $this->bcc;
     }
 
 
-    public function from() : ?Identity
+    public function from(): ?Identity
     {
         return $this->from;
     }
 
 
-    public function sender() : ?Identity
+    public function sender(): ?Identity
     {
         return $this->sender;
     }
 
 
-    public function replyTo() : ?Identity
+    public function replyTo(): ?Identity
     {
         return $this->replyTo;
     }
 
 
-    public function returnPath() : ?Identity
+    public function returnPath(): ?Identity
     {
         return $this->returnPath;
     }
 
 
-    public function additionalHeaders() : array
+    public function additionalHeaders(): array
     {
         return $this->addHeaders;
     }

@@ -1,27 +1,26 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AllenJB\Mailer\Transport;
 
-use AllenJB\Mailer\Identity;
 use AllenJB\Mailer\InternalEmail;
 
 class PhpMailer extends AbstractTransport
 {
-    
+
     protected $mailer;
 
 
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->mailer = new \PHPMailer\PHPMailer\PHPMailer(true);
         $this->mailer->XMailer = " ";
     }
 
 
-    protected function reconfigureMethod() : void
+    protected function reconfigureMethod(): void
     {
         switch ($this->method) {
             case "default";
@@ -41,9 +40,9 @@ class PhpMailer extends AbstractTransport
                 throw new \DomainException("Unimplemented method for the selected transport");
         }
     }
-    
-    
-    protected function sendImplementation(InternalEmail $email) : bool
+
+
+    protected function sendImplementation(InternalEmail $email): bool
     {
         $this->reset();
 
@@ -52,24 +51,14 @@ class PhpMailer extends AbstractTransport
         $this->mailer->setFrom($email->from()->email(), ($email->from()->displayName() ?? ''));
         $this->mailer->addReplyTo($email->replyTo()->email(), ($email->replyTo()->displayName() ?? ''));
 
-        /**
-         * @var Identity $identity;
-         */
         foreach ($email->to() as $identity) {
-            $this->mailer->addAddress($identity->email(), ($identity->displayName() ?? ''));     // Add a recipient
+            $this->mailer->addAddress($identity->email(), ($identity->displayName() ?? ''));
         }
 
-
-        /**
-         * @var Identity $identity;
-         */
         foreach ($email->cc() as $identity) {
-            $this->mailer->addCC($identity->email(), ($identity->displayName() ?? ''));     // Add a recipient
+            $this->mailer->addCC($identity->email(), ($identity->displayName() ?? ''));
         }
 
-        /**
-         * @var Identity $identity;
-         */
         foreach ($email->bcc() as $identity) {
             $this->mailer->addBCC($identity->email(), ($identity->displayName() ?? ''));
         }
@@ -89,18 +78,17 @@ class PhpMailer extends AbstractTransport
                     break;
 
                 default:
-                    throw new \UnexpectedValueException("Unhandled attachment type: ". $attachment['type']);
+                    throw new \UnexpectedValueException("Unhandled attachment type: " . $attachment['type']);
             }
         }
 
-        foreach ($email->additionalHeaders() as $header => $values)
-        {
+        foreach ($email->additionalHeaders() as $header => $values) {
             foreach ($values as $value) {
                 $this->mailer->addCustomHeader($header, $value);
             }
         }
 
-        if (strlen($email->bodyText() ?? '') > 0) {
+        if (($email->bodyText() ?? '') !== '') {
             if ($email->bodyHtml() !== null) {
                 $this->mailer->isHTML(true);
                 $this->mailer->Body = $email->bodyHtml();
@@ -120,9 +108,9 @@ class PhpMailer extends AbstractTransport
 
         return $retVal;
     }
-    
-    
-    protected function reset()
+
+
+    protected function reset(): void
     {
         $this->mailer->clearAttachments();
         $this->mailer->clearCustomHeaders();

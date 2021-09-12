@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AllenJB\Mailer;
 
@@ -17,11 +17,11 @@ class Identity
     protected $displayName = null;
 
 
-    public function __construct(string $email, string $displayName = null)
+    public function __construct(string $email, ?string $displayName = null)
     {
         if ($email === "") {
             throw new \InvalidArgumentException("Email address cannot be empty");
-        } else if (!preg_match('/^.+\@.+\..+$/', $email)) {
+        } elseif (! preg_match('/^.+\@.+\..+$/', $email)) {
             throw new \InvalidArgumentException("Email address is not valid");
         }
         $this->email = $email;
@@ -29,36 +29,23 @@ class Identity
     }
 
 
-    public function getEmail() : string
+    public function email(): string
     {
         return $this->email;
     }
 
 
-    public function getDisplayName()
+    public function displayName(): ?string
     {
         return $this->displayName;
     }
 
 
-    public function email() : string
-    {
-        return $this->email;
-    }
-
-
-    public function displayName()
-    {
-        return $this->displayName;
-    }
-
-
-    public function toEmailIdentity()
+    public function toEmailIdentity(): string
     {
         if (($this->displayName ?? "") !== "") {
-            return '"'. str_replace('"', '\"', $this->displayName) ."\" <{$this->email}>";
-        } else {
-            return "<{$this->email}>";
+            return '"' . str_replace('"', '\"', $this->displayName) . "\" <{$this->email}>";
         }
+        return "<{$this->email}>";
     }
 }

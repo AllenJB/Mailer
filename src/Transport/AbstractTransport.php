@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AllenJB\Mailer\Transport;
 
@@ -33,7 +33,7 @@ abstract class AbstractTransport
     }
 
 
-    public function setMethodSmtp(string $hostname, string $username, string $password, int $port = 587) : void
+    public function setMethodSmtp(string $hostname, string $username, string $password, int $port = 587): void
     {
         $this->method = "smtp";
         $this->methodHost = $hostname;
@@ -45,16 +45,16 @@ abstract class AbstractTransport
     }
 
 
-    abstract protected function reconfigureMethod() : void;
+    abstract protected function reconfigureMethod(): void;
 
 
-    public function setTempPath(string $path) : void
+    public function setTempPath(string $path): void
     {
         $this->tmpPath = $path;
     }
 
 
-    public function send(Email $email) : bool
+    public function send(Email $email): bool
     {
         if (($email->subject() ?? "") === "") {
             throw new \UnexpectedValueException("Email has no subject");
@@ -68,7 +68,7 @@ abstract class AbstractTransport
         if ((count($email->to()) + count($email->cc()) + count($email->bcc())) < 1) {
             throw new \UnexpectedValueException("Email has no recipients");
         }
-        
+
         $email = new InternalEmail($email);
 
         $retVal = $this->sendImplementation($email);
@@ -79,12 +79,12 @@ abstract class AbstractTransport
     }
 
 
-    protected abstract function sendImplementation(InternalEmail $email) : bool;
+    abstract protected function sendImplementation(InternalEmail $email): bool;
 
 
-    protected function createTmpFile($extension) : string
+    protected function createTmpFile($extension): string
     {
-        $tmpName = 'email_attach_'. dechex(time()) .'_'. dechex(random_int(0, 4096)) .'.'. $extension;
+        $tmpName = 'email_attach_' . dechex(time()) . '_' . dechex(random_int(0, 4096)) . '.' . $extension;
         if (file_exists($this->tmpPath . $tmpName)) {
             return $this->createTmpFile($extension);
         }
@@ -92,7 +92,7 @@ abstract class AbstractTransport
     }
 
 
-    protected function cleanupTmpFiles() : void
+    protected function cleanupTmpFiles(): void
     {
         foreach ($this->tmpFiles as $tmpFile) {
             unlink($tmpFile);

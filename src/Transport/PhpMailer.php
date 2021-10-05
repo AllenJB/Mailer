@@ -10,6 +10,8 @@ class PhpMailer extends AbstractTransport
 
     protected $mailer;
 
+    protected $resetAfterSend = true;
+
 
     public function __construct()
     {
@@ -17,6 +19,24 @@ class PhpMailer extends AbstractTransport
 
         $this->mailer = new \PHPMailer\PHPMailer\PHPMailer(true);
         $this->mailer->XMailer = " ";
+    }
+
+
+    public function setMailer(\PHPMailer\PHPMailer\PHPMailer $mailer): void
+    {
+        $this->mailer = $mailer;
+    }
+
+
+    /**
+     * Toggle resetting the PHPMailer instance after each send. (Default: reset after send)
+     * This should be enabled for production, but can be disabled for debugging / tests
+
+     * @param bool $enabled
+     */
+    public function resetMailerAfterSend(bool $enabled): void
+    {
+        $this->resetAfterSend = $enabled;
     }
 
 
@@ -70,7 +90,7 @@ class PhpMailer extends AbstractTransport
                     $tmpFile = $this->createTmpFile($ext);
                     file_put_contents($tmpFile, $attachment['data']);
                     $this->tmpFiles[] = $tmpFile;
-                    $this->mailer->addAttachment($tmpFile, $attachment['filenae']);
+                    $this->mailer->addAttachment($tmpFile, $attachment['filename']);
                     break;
 
                 case 'file':
@@ -117,7 +137,9 @@ class PhpMailer extends AbstractTransport
 
         $retVal = $this->mailer->send();
 
-        $this->reset();
+        if ($this->resetAfterSend) {
+            $this->reset();
+        }
 
         return $retVal;
     }

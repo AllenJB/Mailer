@@ -62,4 +62,4 @@ jobs:
       - name: Install dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: Run static analysis with phpstan
-        run: vendor/bin/phpstan analyze —configuration=phpstan.neon
+        run: vendor/bin/phpstan analyze --configuration=phpstan.neon

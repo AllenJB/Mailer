@@ -77,7 +77,7 @@ class Email
     protected $references = [];
 
     /**
-     * @var array
+     * @var array<array{type: string, disposition: string, contentType: string, filename: string}>
      */
     protected $attachments = [];
 
@@ -199,7 +199,7 @@ class Email
     public function addAttachmentData(
         string $displayFilename,
         string $contentType,
-        $data,
+        string $data,
         string $disposition = 'attachment'
     ): void {
         if (! in_array($disposition, $this->allowedDispositions, true)) {
@@ -279,6 +279,9 @@ class Email
     }
 
 
+    /**
+     * @return string[]
+     */
     public function references(): array
     {
         return $this->references;
@@ -299,6 +302,9 @@ class Email
     }
 
 
+    /**
+     * @return array<array{type: string, disposition: string, contentType: string, filename: string}>
+     */
     public function attachments(): array
     {
         return $this->attachments;
@@ -323,18 +329,27 @@ class Email
     }
 
 
+    /**
+     * @return Identity[]
+     */
     public function to(): array
     {
         return $this->to;
     }
 
 
+    /**
+     * @return Identity[]
+     */
     public function cc(): array
     {
         return $this->cc;
     }
 
 
+    /**
+     * @return Identity[]
+     */
     public function bcc(): array
     {
         return $this->bcc;
@@ -365,6 +380,9 @@ class Email
     }
 
 
+    /**
+     * @return array<string, array<string>>
+     */
     public function additionalHeaders(): array
     {
         return $this->addHeaders;

@@ -43,7 +43,7 @@ class Identity
 
     public function toEmailIdentity(): string
     {
-        if (($this->displayName ?? "") !== "") {
+        if (($this->displayName !== null) && ($this->displayName !== "")) {
             return '"' . str_replace('"', '\"', $this->displayName) . "\" <{$this->email}>";
         }
         return "<{$this->email}>";

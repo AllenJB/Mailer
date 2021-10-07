@@ -1,3 +1,4 @@
+name: PHP
 on:
   push:
     branches: [ master ]
@@ -9,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.4', '8.0', '8.1']
+        php-versions: ['7.3', '7.4', '8.0', '8.1']
     steps:
       - uses: actions/checkout@v2
       - name: Setup PHP
@@ -33,3 +34,5 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: Test with phpunit
         run: vendor/bin/phpunit --coverage-text
+      - name: Run static analysis with phpstan
+        run: vendor/bin/phpstan analyze —configuration=phpstan.neon

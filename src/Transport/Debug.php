@@ -39,6 +39,9 @@ class Debug extends AbstractTransport
     }
 
 
+    /**
+     * @return array<Email>
+     */
     public function getEmails(): array
     {
         return $this->sentEmails;

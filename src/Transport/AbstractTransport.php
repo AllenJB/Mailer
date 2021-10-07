@@ -9,8 +9,14 @@ use AllenJB\Mailer\InternalEmail;
 abstract class AbstractTransport
 {
 
+    /**
+     * @var string Path to create temp files in
+     */
     protected $tmpPath;
 
+    /**
+     * @var array<string> List of temp files (full path)
+     */
     protected $tmpFiles = [];
 
     /**
@@ -18,12 +24,24 @@ abstract class AbstractTransport
      */
     protected $method = "default";
 
+    /**
+     * @var ?string
+     */
     protected $methodHost = null;
 
+    /**
+     * @var ?int
+     */
     protected $methodPort = null;
 
+    /**
+     * @var ?string
+     */
     protected $methodUser = null;
 
+    /**
+     * @var ?string
+     */
     protected $methodPass = null;
 
 
@@ -82,7 +100,7 @@ abstract class AbstractTransport
     abstract protected function sendImplementation(InternalEmail $email): bool;
 
 
-    protected function createTmpFile($extension): string
+    protected function createTmpFile(string $extension): string
     {
         $tmpName = 'email_attach_' . dechex(time()) . '_' . dechex(random_int(0, 4096)) . '.' . $extension;
         if (file_exists($this->tmpPath . $tmpName)) {

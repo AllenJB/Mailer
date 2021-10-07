@@ -8,8 +8,14 @@ use AllenJB\Mailer\InternalEmail;
 class PhpMailer extends AbstractTransport
 {
 
+    /**
+     * @var \PHPMailer\PHPMailer\PHPMailer
+     */
     protected $mailer;
 
+    /**
+     * @var bool
+     */
     protected $resetAfterSend = true;
 
 
@@ -47,6 +53,18 @@ class PhpMailer extends AbstractTransport
                 break;
 
             case "smtp":
+                if ($this->methodHost === null) {
+                    throw new \UnexpectedValueException("No SMTP Host specified");
+                }
+                if ($this->methodPort === null) {
+                    throw new \UnexpectedValueException("No SMTP Port specified");
+                }
+                if ($this->methodUser === null) {
+                    throw new \UnexpectedValueException("No SMTP Username specified");
+                }
+                if ($this->methodPass === null) {
+                    throw new \UnexpectedValueException("No SMTP Password specified");
+                }
                 $this->mailer->isSMTP();
                 $this->mailer->Host = $this->methodHost;
                 $this->mailer->SMTPAuth = true;
@@ -65,6 +83,22 @@ class PhpMailer extends AbstractTransport
     protected function sendImplementation(InternalEmail $email): bool
     {
         $this->reset();
+
+        if ($email->subject() === null) {
+            throw new \InvalidArgumentException("Email has no subject");
+        }
+        if ($email->from() === null) {
+            throw new \InvalidArgumentException("Email has no From address");
+        }
+        if ($email->replyTo() === null) {
+            throw new \InvalidArgumentException("Email has no Reply-To address");
+        }
+        if (
+            (($email->bodyText() === null) || ($email->bodyText() === ''))
+            && (($email->bodyHtml() === null) || ($email->bodyHtml() === ''))
+        ) {
+            throw new \InvalidArgumentException("Email has no body (text or HTML)");
+        }
 
         $this->mailer->Subject = $email->subject();
 
@@ -88,12 +122,14 @@ class PhpMailer extends AbstractTransport
                 case 'data':
                     $ext = pathinfo($attachment['filename'], PATHINFO_EXTENSION);
                     $tmpFile = $this->createTmpFile($ext);
+                    // @phpstan-ignore-next-line
                     file_put_contents($tmpFile, $attachment['data']);
                     $this->tmpFiles[] = $tmpFile;
                     $this->mailer->addAttachment($tmpFile, $attachment['filename']);
                     break;
 
                 case 'file':
+                    // @phpstan-ignore-next-line
                     $this->mailer->addAttachment($attachment['path'], $attachment['filename']);
                     break;
 
@@ -125,14 +161,14 @@ class PhpMailer extends AbstractTransport
             if ($email->bodyHtml() !== null) {
                 $this->mailer->isHTML(true);
                 $this->mailer->Body = $email->bodyHtml();
-                $this->mailer->AltBody = $email->bodyText();
+                $this->mailer->AltBody = ($email->bodyText() ?? "");
             } else {
                 $this->mailer->isHTML(false);
-                $this->mailer->Body = $email->bodyText();
+                $this->mailer->Body = ($email->bodyText() ?? '');
             }
         } else {
             $this->mailer->isHTML(true);
-            $this->mailer->Body = $email->bodyHtml();
+            $this->mailer->Body = ($email->bodyHtml() ?? '');
         }
 
         $retVal = $this->mailer->send();
@@ -151,11 +187,11 @@ class PhpMailer extends AbstractTransport
         $this->mailer->clearCustomHeaders();
         $this->mailer->clearAllRecipients();
         $this->mailer->clearReplyTos();
-        $this->mailer->Subject = null;
-        $this->mailer->Body = null;
-        $this->mailer->AltBody = null;
+        $this->mailer->Subject = '';
+        $this->mailer->Body = '';
+        $this->mailer->AltBody = '';
         $this->mailer->CharSet = 'UTF-8';
-        $this->mailer->ErrorInfo = null;
+        $this->mailer->ErrorInfo = '';
         $this->mailer->Encoding = '8bit';
         $this->mailer->isHTML(false);
     }

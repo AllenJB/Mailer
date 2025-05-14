@@ -224,7 +224,7 @@ class Email
      * @param string $email
      * @param null|string $displayName
      */
-    public function setFrom(string $email, string $displayName = null): void
+    public function setFrom(string $email, ?string $displayName = null): void
     {
         $this->from = new Identity($email, $displayName);
     }
@@ -236,13 +236,13 @@ class Email
      * @param string $email
      * @param null|string $displayName
      */
-    public function setSender(string $email, string $displayName = null): void
+    public function setSender(string $email, ?string $displayName = null): void
     {
         $this->sender = new Identity($email, $displayName);
     }
 
 
-    public function setReplyTo(string $email, string $displayName = null): void
+    public function setReplyTo(string $email, ?string $displayName = null): void
     {
         $this->replyTo = new Identity($email, $displayName);
     }

@@ -5,129 +5,95 @@ namespace AllenJB\Mailer;
 
 class Email
 {
-
     /**
      * @var array<string>
      */
-    protected $allowedDispositions = ['attachment', 'inline'];
+    protected array $allowedDispositions = ['attachment', 'inline'];
 
-    /**
-     * @var ?string
-     */
-    protected $subject = null;
+    protected ?string $subject = null;
 
-    /**
-     * @var ?string
-     */
-    protected $bodyText = null;
+    protected ?string $bodyText = null;
 
-    /**
-     * @var ?string
-     */
-    protected $bodyHtml = null;
+    protected ?string $bodyHtml = null;
 
     /**
      * @var array<string, array<string>>
      */
-    protected $addHeaders = [];
+    protected array $addHeaders = [];
 
-    /**
-     * @var ?Identity
-     */
-    protected $from = null;
+    protected ?Identity $from = null;
 
-    /**
-     * @var ?Identity
-     */
-    protected $sender = null;
+    protected ?Identity $sender = null;
 
-    /**
-     * @var ?Identity
-     */
-    protected $replyTo = null;
+    protected ?Identity $replyTo = null;
 
-    /**
-     * @var ?Identity
-     */
-    protected $returnPath = null;
+    protected ?Identity $returnPath = null;
 
     /**
      * @var array<Identity>
      */
-    protected $to = [];
+    protected array $to = [];
 
     /**
      * @var array<Identity>
      */
-    protected $cc = [];
+    protected array $cc = [];
 
     /**
      * @var array<Identity>
      */
-    protected $bcc = [];
+    protected array $bcc = [];
 
-    /**
-     * @var ?string
-     */
-    protected $inReplyTo = null;
+    protected ?string $inReplyTo = null;
 
     /**
      * @var array<string>
      */
-    protected $references = [];
+    protected array $references = [];
 
     /**
      * @var array<array{type: string, disposition: string, contentType: string, filename: string}>
      */
-    protected $attachments = [];
-
+    protected array $attachments = [];
 
     public function __construct()
     {
     }
-
 
     public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
 
-
     public function setTextBody(string $body): void
     {
         $this->bodyText = $body;
     }
-
 
     public function appendTextBody(string $body): void
     {
         $this->bodyText .= $body;
     }
 
-
     public function setHtmlBody(string $body): void
     {
         $this->bodyHtml = $body;
     }
-
 
     public function addTo(string $email, ?string $displayName = null): void
     {
         $this->to[] = new Identity($email, $displayName);
     }
 
-
     public function addCc(string $email, ?string $displayName = null): void
     {
         $this->cc[] = new Identity($email, $displayName);
     }
 
-
     public function addBcc(string $email, ?string $displayName = null): void
     {
         $this->bcc[] = new Identity($email, $displayName);
     }
-
 
     /**
      * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
@@ -143,7 +109,6 @@ class Email
         }
     }
 
-
     /**
      * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
      */
@@ -158,7 +123,6 @@ class Email
         }
     }
 
-
     /**
      * @param string[] $recipients (If the array has keys, the key is the email address and the value the display name)
      */
@@ -172,7 +136,6 @@ class Email
             }
         }
     }
-
 
     public function addAttachment(
         string $displayFilename,
@@ -195,7 +158,6 @@ class Email
         ];
     }
 
-
     public function addAttachmentData(
         string $displayFilename,
         string $contentType,
@@ -217,7 +179,6 @@ class Email
         ];
     }
 
-
     /**
      * Set the identity that the email appears to be from (is sent on behalf of)
      *
@@ -228,7 +189,6 @@ class Email
     {
         $this->from = new Identity($email, $displayName);
     }
-
 
     /**
      * Set the identity that the email was sent by (actual sender)
@@ -241,18 +201,15 @@ class Email
         $this->sender = new Identity($email, $displayName);
     }
 
-
     public function setReplyTo(string $email, ?string $displayName = null): void
     {
         $this->replyTo = new Identity($email, $displayName);
     }
 
-
     public function setReturnPath(string $email): void
     {
         $this->returnPath = new Identity($email);
     }
-
 
     public function setInReplyTo(string $messageId): void
     {
@@ -260,12 +217,10 @@ class Email
         $this->references[] = $messageId;
     }
 
-
     public function inReplyTo(): ?string
     {
         return $this->inReplyTo;
     }
-
 
     /**
      * @param string|string[] $ref
@@ -278,7 +233,6 @@ class Email
         $this->references = array_merge($this->references, $ref);
     }
 
-
     /**
      * @return string[]
      */
@@ -286,7 +240,6 @@ class Email
     {
         return $this->references;
     }
-
 
     public function addHeader(string $header, string $value, bool $overwrite = true): void
     {
@@ -301,7 +254,6 @@ class Email
         $this->addHeaders[$header] = [$value];
     }
 
-
     /**
      * @return array<array{type: string, disposition: string, contentType: string, filename: string}>
      */
@@ -310,24 +262,20 @@ class Email
         return $this->attachments;
     }
 
-
     public function subject(): ?string
     {
         return $this->subject;
     }
-
 
     public function bodyText(): ?string
     {
         return $this->bodyText;
     }
 
-
     public function bodyHtml(): ?string
     {
         return $this->bodyHtml;
     }
-
 
     /**
      * @return Identity[]
@@ -337,7 +285,6 @@ class Email
         return $this->to;
     }
 
-
     /**
      * @return Identity[]
      */
@@ -345,7 +292,6 @@ class Email
     {
         return $this->cc;
     }
-
 
     /**
      * @return Identity[]
@@ -355,30 +301,25 @@ class Email
         return $this->bcc;
     }
 
-
     public function from(): ?Identity
     {
         return $this->from;
     }
-
 
     public function sender(): ?Identity
     {
         return $this->sender;
     }
 
-
     public function replyTo(): ?Identity
     {
         return $this->replyTo;
     }
 
-
     public function returnPath(): ?Identity
     {
         return $this->returnPath;
     }
-
 
     /**
      * @return array<string, array<string>>
@@ -387,5 +328,4 @@ class Email
     {
         return $this->addHeaders;
     }
-
 }

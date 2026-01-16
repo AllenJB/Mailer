@@ -7,17 +7,9 @@ use AllenJB\Mailer\InternalEmail;
 
 class PhpMailer extends AbstractTransport
 {
+    protected \PHPMailer\PHPMailer\PHPMailer $mailer;
 
-    /**
-     * @var \PHPMailer\PHPMailer\PHPMailer
-     */
-    protected $mailer;
-
-    /**
-     * @var bool
-     */
-    protected $resetAfterSend = true;
-
+    protected bool $resetAfterSend = true;
 
     public function __construct()
     {
@@ -27,17 +19,14 @@ class PhpMailer extends AbstractTransport
         $this->mailer->XMailer = " ";
     }
 
-
     public function setMailer(\PHPMailer\PHPMailer\PHPMailer $mailer): void
     {
         $this->mailer = $mailer;
     }
 
-
     /**
      * Toggle resetting the PHPMailer instance after each send. (Default: reset after send)
      * This should be enabled for production, but can be disabled for debugging / tests
-
      * @param bool $enabled
      */
     public function resetMailerAfterSend(bool $enabled): void
@@ -45,11 +34,10 @@ class PhpMailer extends AbstractTransport
         $this->resetAfterSend = $enabled;
     }
 
-
     protected function reconfigureMethod(): void
     {
         switch ($this->method) {
-            case "default";
+            case "default":
                 break;
 
             case "smtp":
@@ -78,7 +66,6 @@ class PhpMailer extends AbstractTransport
                 throw new \DomainException("Unimplemented method for the selected transport");
         }
     }
-
 
     protected function sendImplementation(InternalEmail $email): bool
     {
@@ -145,7 +132,7 @@ class PhpMailer extends AbstractTransport
         if (count($email->references())) {
             $encodedRefs = [];
             foreach ($email->references() as $refdMessageId) {
-                $encodedRefs[] = '<'. $refdMessageId .'>';
+                $encodedRefs[] = '<' . $refdMessageId . '>';
             }
             $headerString = join(" ", $encodedRefs);
             $this->mailer->addCustomHeader('References', $headerString);
@@ -180,7 +167,6 @@ class PhpMailer extends AbstractTransport
         return $retVal;
     }
 
-
     protected function reset(): void
     {
         $this->mailer->clearAttachments();
@@ -195,5 +181,4 @@ class PhpMailer extends AbstractTransport
         $this->mailer->Encoding = '8bit';
         $this->mailer->isHTML(false);
     }
-
 }

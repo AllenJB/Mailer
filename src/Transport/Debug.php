@@ -8,23 +8,19 @@ use AllenJB\Mailer\InternalEmail;
 
 class Debug extends AbstractTransport
 {
-
     /**
      * @var array<Email>
      */
-    protected $sentEmails = [];
-
+    protected array $sentEmails = [];
 
     protected function reconfigureMethod(): void
     {
     }
 
-
     protected function sendImplementation(InternalEmail $email): bool
     {
         return true;
     }
-
 
     public function send(Email $email): bool
     {
@@ -32,12 +28,10 @@ class Debug extends AbstractTransport
         return true;
     }
 
-
     public function clearSentEmails(): void
     {
         $this->sentEmails = [];
     }
-
 
     /**
      * @return array<Email>
@@ -47,7 +41,6 @@ class Debug extends AbstractTransport
         return $this->sentEmails;
     }
 
-
     public function getLastEmail(): ?Email
     {
         if (count($this->sentEmails) === 0) {
@@ -55,5 +48,4 @@ class Debug extends AbstractTransport
         }
         return end($this->sentEmails);
     }
-
 }

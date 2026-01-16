@@ -9,8 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class PhpMailerTest extends TestCase
 {
-
-
     protected function getMockPhpMailer(): \PHPMailer\PHPMailer\PHPMailer
     {
         $mockbuilder = $this->getMockBuilder(\PHPMailer\PHPMailer\PHPMailer::class);
@@ -25,7 +23,6 @@ class PhpMailerTest extends TestCase
 
         return $phpmailer;
     }
-
 
     public function testSmtpTextOnly(): void
     {
@@ -56,7 +53,6 @@ class PhpMailerTest extends TestCase
         $this->assertEquals($email->bodyText(), $phpmailer->Body);
         $this->assertEquals([[$email->replyTo()->email(), ""]], array_values($phpmailer->getReplyToAddresses()));
     }
-
 
     public function testTextAndHtml(): void
     {
@@ -90,13 +86,13 @@ class PhpMailerTest extends TestCase
 
         $expectedRecipients = [];
         foreach ($ccRecipients as $origRecipient) {
-            $expectedRecipients[] = [ $origRecipient, "" ];
+            $expectedRecipients[] = [$origRecipient, ""];
         }
         $this->assertEquals($expectedRecipients, array_values($phpmailer->getCcAddresses()));
 
         $expectedRecipients = [];
         foreach ($bccRecipients as $origRecipient) {
-            $expectedRecipients[] = [ $origRecipient, "" ];
+            $expectedRecipients[] = [$origRecipient, ""];
         }
         $this->assertEquals($expectedRecipients, array_values($phpmailer->getBccAddresses()));
     }

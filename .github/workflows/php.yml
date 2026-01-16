@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.3', '7.4', '8.0', '8.1']
+        php-versions: ['8.3', '8.4']
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP
@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: [ '8.0' ]
+        php-versions: [ '8.4' ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP

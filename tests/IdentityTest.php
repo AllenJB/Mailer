@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class IdentityTest extends TestCase
 {
-
     public function testEmptyEmailThrows(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -16,7 +15,6 @@ class IdentityTest extends TestCase
 
         new Identity("");
     }
-
 
     public function testInvalidEmailThrows(): void
     {
@@ -45,7 +43,6 @@ class IdentityTest extends TestCase
             );
         }
     }
-
 
     public function testHappyPath(): void
     {
@@ -95,5 +92,4 @@ class IdentityTest extends TestCase
             }
         }
     }
-
 }

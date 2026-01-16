@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class EmailTest extends TestCase
 {
-
     public function constructClassToTest(): Email
     {
         return new Email();
@@ -24,7 +23,6 @@ class EmailTest extends TestCase
         $this->assertEquals($testValue, $email->subject());
     }
 
-
     public function testTextBody(): void
     {
         $email = $this->constructClassToTest();
@@ -39,7 +37,6 @@ class EmailTest extends TestCase
         $this->assertEquals($testValue . $appendValue, $email->bodyText());
     }
 
-
     public function testHtmlBody(): void
     {
         $email = $this->constructClassToTest();
@@ -50,7 +47,6 @@ class EmailTest extends TestCase
         $this->assertEquals($testValue, $email->bodyHtml());
     }
 
-
     public function testReturnPath(): void
     {
         $email = $this->constructClassToTest();
@@ -60,7 +56,6 @@ class EmailTest extends TestCase
         $email->setReturnPath($testEmail);
         $this->assertEquals($testEmail, $email->returnPath()->email());
     }
-
 
     public function testReplyTo(): void
     {
@@ -87,7 +82,6 @@ class EmailTest extends TestCase
         $this->assertNull($email->returnPath());
     }
 
-
     public function testSender(): void
     {
         $email = $this->constructClassToTest();
@@ -113,7 +107,6 @@ class EmailTest extends TestCase
         $this->assertNull($email->returnPath());
     }
 
-
     public function testFrom(): void
     {
         $email = $this->constructClassToTest();
@@ -138,7 +131,6 @@ class EmailTest extends TestCase
         $this->assertNull($email->sender());
         $this->assertNull($email->returnPath());
     }
-
 
     public function testTo(): void
     {
@@ -179,7 +171,6 @@ class EmailTest extends TestCase
         $this->assertEquals("Fourth Recipient", $recipients[3]->displayName());
     }
 
-
     public function testCc(): void
     {
         $email = $this->constructClassToTest();
@@ -218,7 +209,6 @@ class EmailTest extends TestCase
         $this->assertEquals("cc4@example.com", $recipients[3]->email());
         $this->assertEquals("Fourth Recipient", $recipients[3]->displayName());
     }
-
 
     public function testBcc(): void
     {
@@ -263,7 +253,6 @@ class EmailTest extends TestCase
         $this->assertEquals([], $email->to());
     }
 
-
     public function testReferences(): void
     {
         $email = $this->constructClassToTest();
@@ -295,7 +284,6 @@ class EmailTest extends TestCase
         $this->assertEquals($addRefs[0], $refs[2]);
         $this->assertEquals($addRefs[1], $refs[3]);
     }
-
 
     public function testAttachments(): void
     {
@@ -335,7 +323,6 @@ class EmailTest extends TestCase
         $this->assertEquals("inline", $attachments[3]["disposition"]);
     }
 
-
     public function testAdditionalHeaders(): void
     {
         $email = $this->constructClassToTest();
@@ -374,5 +361,4 @@ class EmailTest extends TestCase
         $this->assertCount(1, $headers["Another-Header"]);
         $this->assertEquals("Another Header Value", $headers["Another-Header"][0]);
     }
-
 }

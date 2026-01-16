@@ -5,7 +5,6 @@ namespace AllenJB\Mailer;
 
 class InternalEmail extends Email
 {
-
     public function __construct(Email $email)
     {
         parent::__construct();
@@ -16,7 +15,6 @@ class InternalEmail extends Email
         }
     }
 
-
     public function from(): ?Identity
     {
         $retVal = ($this->from ?? $this->sender);
@@ -25,7 +23,6 @@ class InternalEmail extends Email
         }
         return $retVal;
     }
-
 
     public function sender(): ?Identity
     {
@@ -36,7 +33,6 @@ class InternalEmail extends Email
         return $retVal;
     }
 
-
     public function replyTo(): ?Identity
     {
         $retVal = ($this->replyTo ?? $this->from);
@@ -46,10 +42,8 @@ class InternalEmail extends Email
         return $retVal;
     }
 
-
     public function returnPath(): ?Identity
     {
         return ($this->returnPath ?? $this->sender());
     }
-
 }

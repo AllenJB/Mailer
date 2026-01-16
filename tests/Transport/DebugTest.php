@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class DebugTest extends TestCase
 {
-
     public function testNoEmailsSent(): void
     {
         $transport = new Debug();
@@ -18,11 +17,10 @@ class DebugTest extends TestCase
         $this->assertEquals([], $transport->getEmails());
     }
 
-
     public function testOneEmailSent(): void
     {
         $email = new Email();
-        $email->setSubject(__METHOD__ ." Test 1");
+        $email->setSubject(__METHOD__ . " Test 1");
 
         $transport = new Debug();
         $transport->send($email);
@@ -38,13 +36,12 @@ class DebugTest extends TestCase
         $this->assertEquals([], $transport->getEmails());
     }
 
-
     public function testMultipleEmailsSent(): void
     {
         $emailsToSend = [];
         for ($i = 0; $i < 5; $i++) {
             $email = new Email();
-            $email->setSubject(__METHOD__ ." Test ". $i);
+            $email->setSubject(__METHOD__ . " Test " . $i);
             $emailsToSend[] = $email;
         }
 

@@ -8,48 +8,33 @@ use AllenJB\Mailer\InternalEmail;
 
 abstract class AbstractTransport
 {
-
     /**
      * @var string Path to create temp files in
      */
-    protected $tmpPath;
+    protected string $tmpPath;
 
     /**
      * @var array<string> List of temp files (full path)
      */
-    protected $tmpFiles = [];
+    protected array $tmpFiles = [];
 
     /**
      * @var string "default" or "smtp" are currently supported
      */
-    protected $method = "default";
+    protected string $method = "default";
 
-    /**
-     * @var ?string
-     */
-    protected $methodHost = null;
+    protected ?string $methodHost = null;
 
-    /**
-     * @var ?int
-     */
-    protected $methodPort = null;
+    protected ?int $methodPort = null;
 
-    /**
-     * @var ?string
-     */
-    protected $methodUser = null;
+    protected ?string $methodUser = null;
 
-    /**
-     * @var ?string
-     */
-    protected $methodPass = null;
-
+    protected ?string $methodPass = null;
 
     public function __construct()
     {
         $this->tmpPath = sys_get_temp_dir();
     }
-
 
     public function setMethodSmtp(string $hostname, string $username, string $password, int $port = 587): void
     {
@@ -62,15 +47,12 @@ abstract class AbstractTransport
         $this->reconfigureMethod();
     }
 
-
     abstract protected function reconfigureMethod(): void;
-
 
     public function setTempPath(string $path): void
     {
         $this->tmpPath = $path;
     }
-
 
     public function send(Email $email): bool
     {
@@ -96,9 +78,7 @@ abstract class AbstractTransport
         return $retVal;
     }
 
-
     abstract protected function sendImplementation(InternalEmail $email): bool;
-
 
     protected function createTmpFile(string $extension): string
     {
@@ -109,12 +89,10 @@ abstract class AbstractTransport
         return $this->tmpPath . $tmpName;
     }
 
-
     protected function cleanupTmpFiles(): void
     {
         foreach ($this->tmpFiles as $tmpFile) {
             unlink($tmpFile);
         }
     }
-
 }

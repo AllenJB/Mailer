@@ -5,17 +5,9 @@ namespace AllenJB\Mailer;
 
 class Identity
 {
+    protected string $email;
 
-    /**
-     * @var string
-     */
-    protected $email;
-
-    /**
-     * @var string|null
-     */
-    protected $displayName = null;
-
+    protected ?string $displayName = null;
 
     public function __construct(string $email, ?string $displayName = null)
     {
@@ -28,18 +20,15 @@ class Identity
         $this->displayName = $displayName;
     }
 
-
     public function email(): string
     {
         return $this->email;
     }
 
-
     public function displayName(): ?string
     {
         return $this->displayName;
     }
-
 
     public function toEmailIdentity(): string
     {

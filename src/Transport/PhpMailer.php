@@ -24,6 +24,11 @@ class PhpMailer extends AbstractTransport
         $this->mailer = $mailer;
     }
 
+    public function getMailer(): \PHPMailer\PHPMailer\PHPMailer
+    {
+        return $this->mailer;
+    }
+
     /**
      * Toggle resetting the PHPMailer instance after each send. (Default: reset after send)
      * This should be enabled for production, but can be disabled for debugging / tests
